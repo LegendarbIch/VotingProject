@@ -11,5 +11,11 @@ public class Candidate {
 
     private Long id;
 
-
+    @Override
+    public String toString() {
+        return "Candidate{" +
+                "FIO='" + FIO + '\'' +
+                ", id=" + id +
+                '}';
+    }
 }
