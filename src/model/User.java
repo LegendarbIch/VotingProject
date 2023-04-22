@@ -3,14 +3,14 @@ package model;
 import java.time.LocalDate;
 
 public class User {
-    private Long id;
+    private Long id = 0L;
     private String FIO;
     private LocalDate dateOfBirth;
     private Roles role;
     private String password;
 
-    public User(Long id, String FIO, LocalDate dateOfBirth, Roles role, String password) {
-        this.id = id;
+    public User(String FIO, LocalDate dateOfBirth, Roles role, String password) {
+        this.id++;
         this.FIO = FIO;
         this.dateOfBirth = dateOfBirth;
         this.role = role;

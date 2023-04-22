@@ -19,15 +19,9 @@ public class LoginForUser implements LoginModule{
     @Override
     public boolean login() {
         for (User user: repository.list()) {
-
-        }
-        if (repository.list().stream().filter((Predicate<User>) user -> {
-            if (password.equals(user.getPassword()) && username.equals(user.getFIO())){
-                return true;
-            };
-            return false;
-        }).findFirst()){
-           return true;
+           if (password.equals(user.getPassword()) && username.equals(user.getFIO())){
+               return true;
+           }
         }
         return false;
     }
