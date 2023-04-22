@@ -9,6 +9,14 @@ public class User {
     private Roles role;
     private String password;
 
+    public User(Long id, String FIO, LocalDate dateOfBirth, Roles role, String password) {
+        this.id = id;
+        this.FIO = FIO;
+        this.dateOfBirth = dateOfBirth;
+        this.role = role;
+        this.password = password;
+    }
+
     public String getFIO() {
         return FIO;
     }
