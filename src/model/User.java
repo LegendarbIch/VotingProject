@@ -9,11 +9,11 @@ public class User {
     private Roles role;
     private String password;
 
-    public User(String FIO, LocalDate dateOfBirth, Roles role, String password) {
+    public User(String FIO, LocalDate dateOfBirth, String password) {
         this.id++;
         this.FIO = FIO;
         this.dateOfBirth = dateOfBirth;
-        this.role = role;
+        this.role = Roles.USER;
         this.password = password;
     }
 
