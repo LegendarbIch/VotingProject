@@ -1,5 +1,6 @@
 package model;
 
+import javax.management.relation.Role;
 import java.time.LocalDate;
 
 public class User {
@@ -16,11 +17,11 @@ public class User {
         this.role = Roles.USER;
         this.password = password;
     }
-    public User(String FIO, LocalDate dateOfBirth, String password) {
+    public User(String FIO, LocalDate dateOfBirth, Roles role, String password) {
         this.id++;
         this.FIO = FIO;
         this.dateOfBirth = dateOfBirth;
-        this.role = Roles.USER;
+        this.role = role;
         this.password = password;
     }
 
