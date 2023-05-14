@@ -6,7 +6,7 @@ import model.User;
 public class UserDetailsImpl implements UserDetails {
     private User user;
 
-    UserDetailsImpl(User user){
+    public UserDetailsImpl(User user){
         this.user = user;
     }
     @Override

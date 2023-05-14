@@ -16,6 +16,13 @@ public class User {
         this.role = Roles.USER;
         this.password = password;
     }
+    public User(String FIO, LocalDate dateOfBirth, String password) {
+        this.id++;
+        this.FIO = FIO;
+        this.dateOfBirth = dateOfBirth;
+        this.role = Roles.USER;
+        this.password = password;
+    }
 
     public String getFIO() {
         return FIO;
@@ -53,7 +60,4 @@ public class User {
         return id;
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
 }

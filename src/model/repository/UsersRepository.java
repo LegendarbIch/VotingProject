@@ -2,15 +2,13 @@ package model.repository;
 
 import model.User;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 public class UsersRepository implements Repository<User, Long> {
 
-    private final List<User> users;
+    private final Set<User> users;
 
-    public UsersRepository(){
+    public  UsersRepository(){
         this.users = Storage.getInstance().users;
     }
 

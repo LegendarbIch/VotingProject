@@ -1,9 +1,8 @@
 package model.repository;
 
 import model.User;
-
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 public class Storage {
     private static Storage instance;
@@ -16,9 +15,9 @@ public class Storage {
     }
 
     private Storage() {
-        this.users = new ArrayList<>();
+        this.users = new HashSet<>();
     }
-    List<User> users;
+    Set<User> users;
 
     private void init() {
 
