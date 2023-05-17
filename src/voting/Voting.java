@@ -1,18 +1,25 @@
-package model.voting;
+package voting;
 
-import model.Candidate;
+import entity.User;
 
 import java.time.LocalDate;
 import java.util.*;
 
-public class CandidateVoting {
+public class Voting {
     private LocalDate startDate;
     private LocalDate endDate;
-    private final Map<Candidate, Integer> candidateAndVotes = new HashMap<>();
+    private final List<User> candidates = new ArrayList<>();
+    private final Map<User, Integer> candidateAndVotes = new HashMap<>();
 
-    public CandidateVoting(LocalDate startDate, LocalDate endDate) {
-        this.startDate = startDate;
-        this.endDate = endDate;
+    public Voting() {
+        init();
+    }
+
+    public void addCandidate(User user) {
+        candidates.add(user);
+    }
+    public List<User> getCandidates() {
+        return new ArrayList<>(candidates);
     }
 
     public LocalDate getStartDate() {
@@ -31,16 +38,20 @@ public class CandidateVoting {
         this.endDate = endDate;
     }
 
-    public Map<Candidate, Integer> getCandidateAndVotes() {
+    public Map<User, Integer> getCandidateAndVotes() {
         return candidateAndVotes;
     }
 
     @Override
     public String toString() {
-        return "CandidateVoting{" +
+        return "Voting{" +
                 "startDate=" + startDate +
                 ", endDate=" + endDate +
                 ", candidateAndVotes=" + candidateAndVotes +
                 '}';
+    }
+    private void init() {
+        candidates.add(new User("Путин"));
+        candidates.add(new User("Трамп"));
     }
 }

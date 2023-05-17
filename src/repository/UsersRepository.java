@@ -1,6 +1,6 @@
-package model.repository;
+package repository;
 
-import model.User;
+import entity.User;
 
 import java.util.*;
 
@@ -25,6 +25,11 @@ public class UsersRepository implements Repository<User, Long> {
     @Override
     public User findById(Long aLong) {
         return users.stream().filter(u -> u.getId().equals(aLong)).findFirst().orElse(null);
+    }
+
+    @Override
+    public Optional<User> find(User obj) {
+        return users.stream().filter(u -> u.equals(obj)).findFirst();
     }
 
     @Override

@@ -1,6 +1,8 @@
-package model.repository;
+package repository;
 
-import model.User;
+import entity.User;
+
+import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -16,11 +18,12 @@ public class Storage {
 
     private Storage() {
         this.users = new HashSet<>();
+        init();
     }
     Set<User> users;
 
     private void init() {
-
+        users.add(new User("Кирилл", LocalDate.parse("2003-09-02"),"123"));
     }
 
 }

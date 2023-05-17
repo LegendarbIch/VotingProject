@@ -1,8 +1,6 @@
-package model.details;
+package details;
 
-import model.Roles;
-
-import java.util.Collection;
+import enums.Roles;
 
 public interface UserDetails {
     Roles getAuthorities();

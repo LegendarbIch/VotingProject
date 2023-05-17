@@ -1,7 +1,7 @@
 package controller;
 
-import model.User;
-import model.repository.UsersRepository;
+import entity.User;
+import repository.UsersRepository;
 
 public class RegistrationController {
 
@@ -11,8 +11,7 @@ public class RegistrationController {
         this.repository = usersRepository;
     }
 
-    public boolean registerUser(User user) {
+    public void registerUser(User user) {
         repository.save(user);
-        return true;
     }
 }

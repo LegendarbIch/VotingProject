@@ -1,10 +1,10 @@
-package model.details;
+package details;
 
-import model.Roles;
-import model.User;
+import enums.Roles;
+import entity.User;
 
 public class UserDetailsImpl implements UserDetails {
-    private User user;
+    private final User user;
 
     public UserDetailsImpl(User user){
         this.user = user;
@@ -21,7 +21,7 @@ public class UserDetailsImpl implements UserDetails {
 
     @Override
     public String getUsername() {
-        return user.getFIO();
+        return user.getName();
     }
 
     @Override
