@@ -2,16 +2,24 @@ package details;
 
 import enums.Roles;
 import entity.User;
+import repository.UsersRepository;
+
+import java.util.Optional;
 
 public class UserDetailsImpl implements UserDetails {
     private final User user;
+    private final UsersRepository usersRepository = new UsersRepository();
 
     public UserDetailsImpl(User user){
         this.user = user;
     }
     @Override
     public Roles getAuthorities() {
-        return user.getRole();
+        Optional<User> loginedUser = usersRepository.find(user);
+        if (loginedUser.isPresent()) {
+            return loginedUser.get().getRole();
+        }
+        return Roles.USER;
     }
 
     public boolean isAuthorized = false;

@@ -6,12 +6,13 @@ import java.time.LocalDate;
 import java.util.*;
 
 public class Voting {
-    private LocalDate startDate;
-    private LocalDate endDate;
+    private final LocalDate startDate;
+    private LocalDate endVotingDate;
     private final List<User> candidates = new ArrayList<>();
     private final Map<User, Integer> candidateAndVotes = new HashMap<>();
 
     public Voting() {
+        startDate = LocalDate.now();
         init();
     }
 
@@ -27,16 +28,13 @@ public class Voting {
         return startDate;
     }
 
-    public void setStartDate(LocalDate startDate) {
-        this.startDate = startDate;
+
+    public LocalDate getEndVotingDate() {
+        return endVotingDate;
     }
 
-    public LocalDate getEndDate() {
-        return endDate;
-    }
-
-    public void setEndDate(LocalDate endDate) {
-        this.endDate = endDate;
+    public void setEndVotingDate(LocalDate endVotingDate) {
+        this.endVotingDate = endVotingDate;
     }
 
     public Map<User, Integer> getCandidateAndVotes() {
@@ -47,7 +45,7 @@ public class Voting {
     public String toString() {
         return "Voting{" +
                 "startDate=" + startDate +
-                ", endDate=" + endDate +
+                ", endDate=" + endVotingDate +
                 ", candidateAndVotes=" + candidateAndVotes +
                 '}';
     }

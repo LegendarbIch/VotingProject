@@ -1,6 +1,7 @@
 package repository;
 
 import entity.User;
+import enums.Roles;
 
 import java.time.LocalDate;
 import java.util.HashSet;
@@ -24,6 +25,7 @@ public class Storage {
 
     private void init() {
         users.add(new User("Кирилл", LocalDate.parse("2003-09-02"),"123"));
+        users.add(new User("Админ", LocalDate.parse("2000-01-01"), Roles.ADMIN,"12345"));
     }
 
 }

@@ -1,40 +1,48 @@
 package view;
 
-import controller.AuthorizationManager;
 import controller.LoginController;
 import controller.RegistrationController;
 import details.UserDetailsImpl;
 import entity.User;
 import enums.Roles;
-import repository.UsersRepository;
 import voting.ControlOfVotingForCandidates;
 
-import java.time.Instant;
 import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
 import java.util.*;
-import java.util.function.BiConsumer;
 
 public class Menu {
     private final Scanner scanner = new Scanner(System.in);
     private final LoginController loginController;
     private final RegistrationController registrationController;
     private final ControlOfVotingForCandidates controlOfVotingForCandidates;
-    private final UsersRepository usersRepository;
     private UserDetailsImpl userDetails;
 
     public Menu(LoginController loginController, RegistrationController registrationController,
-                ControlOfVotingForCandidates controlOfVotingForCandidates, UsersRepository usersRepository) {
+                ControlOfVotingForCandidates controlOfVotingForCandidates) {
         this.loginController = loginController;
         this.registrationController = registrationController;
         this.controlOfVotingForCandidates = controlOfVotingForCandidates;
-        this.usersRepository = usersRepository;
     }
 
     public void drawMainMenu() {
         System.out.println("------Голосование------");
         System.out.println("1. Регистрация и вход");
-        System.out.println("2. Проголосовать за кандидата");
+        System.out.println("2. Голосование для пользователя");
+        System.out.println("3. Голосование для админа");
+        executeMainMenu();
     }
+
+    private void executeMainMenu() {
+        int command = scanner.nextInt();
+        scanner.nextLine();
+        switch (command) {
+            case 1 -> drawAuthMenu();
+            case 2 -> drawVotingMenuForUser();
+            case 3 -> drawVotingMenuForAdmin();
+        }
+    }
+
     public void drawAuthMenu() {
         System.out.println("------Регистрация------");
         System.out.println("1. Войти в систему");
@@ -62,29 +70,31 @@ public class Menu {
             userDetails = new UserDetailsImpl(user);
             userDetails.isAuthorized = true;
             System.out.println("Успешно!");
-            Optional<User> loginedUser = usersRepository.find(user);
-            if (loginedUser.isPresent()) {
-                if (loginedUser.get().getRole().equals(Roles.ADMIN)){
-                    drawVotingMenuForAdmin();
-                } else{
-                    drawVotingMenuForUser();
-                }
-            }
+            drawMainMenu();
+
         } else {
             System.out.println("Пароль или имя пользователя не подходят");
             drawAuthMenu();
         }
     }
     private void drawVotingMenuForUser() {
+        isVotingCreated();
         System.out.println("------Голосование для пользователя------");
         System.out.println("1. Проголосовать за кандидата");
         System.out.println("2. Показать состояние голосования");
-        System.out.println("3. Вернуться обратно");
-        executeVotingMenu();
+        System.out.println("3. Вернуться в меню");
+        executeUserVotingMenu();
 
     }
 
-    private void executeVotingMenu() {
+    private void isVotingCreated() {
+        if (controlOfVotingForCandidates.getEndVotingDate() == null) {
+            System.out.println("Голосование еще не создано ");
+            drawMainMenu();
+        }
+    }
+
+    private void executeUserVotingMenu() {
         int command = scanner.nextInt();
         scanner.nextLine();
         switch (command) {
@@ -94,13 +104,17 @@ public class Menu {
         }
     }
     private void votingStatementMenu() {
+        isVotingCreated();
+        System.out.println("Дата проведения: " + controlOfVotingForCandidates.getStartDate() + " - " + controlOfVotingForCandidates.getEndVotingDate());
         controlOfVotingForCandidates.getCandidateAndVotes().forEach
-                ((user, integer) -> System.out.println("Кандидат " + user + "\n" + "Количество голосов " + integer));
+                ((user, integer) -> System.out.println("Кандидат " + user + ":\n" + "Количество голосов " + integer));
+        System.out.println("До конца голосования " +
+                Math.abs(controlOfVotingForCandidates.getStartDate().toEpochDay() - controlOfVotingForCandidates.getEndVotingDate().toEpochDay()) );
         System.out.println("1. Выйти");
         int command = scanner.nextInt();
         scanner.nextLine();
         switch (command) {
-            case (1) -> drawVotingMenuForUser();
+            case (1) -> drawMainMenu();
         }
     }
     private void candidatesMenu() {
@@ -124,13 +138,54 @@ public class Menu {
             userDetails.isVoted = true;
             System.out.println("Вы успешно проголосовали");
             drawVotingMenuForUser();
+        } else {
+            System.out.println("Вы уже пролосовали");
+            drawVotingMenuForUser();
         }
     }
 
     private void drawVotingMenuForAdmin() {
-
+        if (userDetails.getAuthorities().equals(Roles.ADMIN)) {
+            System.out.println("------Управление голосованием------");
+            System.out.println("1. Показать состояние голосования");
+            System.out.println("2. Создать голосование ");
+            System.out.println("3. Добавить кандидатов ");
+            System.out.println("4. Получить статистику по проголосовашим");
+            System.out.println("5. Вернуться в меню");
+            executeAdminVotingMenu();
+        } else {
+            System.out.println("Вы не администратор и не можете сюда войти");
+            drawMainMenu();
+        }
     }
 
+    private void executeAdminVotingMenu() {
+        int command = scanner.nextInt();
+        scanner.nextLine();
+        switch (command) {
+            case 1 -> votingStatementMenu();
+            case 2 -> createVotingMenu();
+            case 3 -> addCandidateMenu();
+        }
+    }
+
+    private void addCandidateMenu() {
+        System.out.println("Введите имя кандидата");
+        String name = scanner.nextLine();
+        controlOfVotingForCandidates.addCandidateInVoting(new User(name));
+        System.out.println("Кандидат успешно добавлен");
+        drawVotingMenuForAdmin();
+    }
+
+    private void createVotingMenu() {
+        System.out.println("Введите дату конца голосования, отчёт начнется с нынешней даты (формат ввода yyyy-mm-dd");
+        String dateEnd = scanner.nextLine();
+        try {
+            controlOfVotingForCandidates.createVoting(LocalDate.parse(dateEnd));
+        } catch (DateTimeParseException e) {
+            throw new RuntimeException(e);
+        }
+    }
     private void drawRegistrationMenu() {
         System.out.println("Как вас зовут?");
         String name = scanner.nextLine();

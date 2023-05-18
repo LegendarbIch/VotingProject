@@ -8,11 +8,11 @@ import java.util.List;
 
 public class ControlOfVotingForCandidates extends Voting {
 
-    public boolean isVoted;
+    public ControlOfVotingForCandidates() {
+    }
 
-    public void createVoting(LocalDate startDate, LocalDate endDate) {
-        setStartDate(startDate);
-        setEndDate(endDate);
+    public void createVoting(LocalDate endDate) {
+        setEndVotingDate(endDate);
     }
 
     public void addCandidateInVoting(User candidate) {
@@ -24,7 +24,7 @@ public class ControlOfVotingForCandidates extends Voting {
             addCandidate(candidate);
         }
     }
-    public void deleteObjectInVoting(User candidate) {
+    public void deleteCandidateInVoting(User candidate) {
 
     }
     public void voteForCandidate(User candidate) {
@@ -32,8 +32,5 @@ public class ControlOfVotingForCandidates extends Voting {
             throw new NullPointerException("Не добавленно ни одного кандидата");
         }
         getCandidateAndVotes().put(candidate, getCandidateAndVotes().get(candidate) + 1);
-    }
-    public Voting getVoting() {
-        return this;
     }
 }

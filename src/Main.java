@@ -15,8 +15,7 @@ public class Main {
         UsersRepository uR = new UsersRepository();
        Menu menu = new Menu(new LoginController(uR),
                new RegistrationController(uR),
-               new ControlOfVotingForCandidates(),
-               uR);
-       menu.drawAuthMenu();
+               new ControlOfVotingForCandidates());
+       menu.drawMainMenu();
     }
 }
