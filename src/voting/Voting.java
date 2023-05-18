@@ -17,6 +17,7 @@ public class Voting {
 
     public void addCandidate(User user) {
         candidates.add(user);
+        candidateAndVotes.put(user, 0);
     }
     public List<User> getCandidates() {
         return new ArrayList<>(candidates);
@@ -51,7 +52,7 @@ public class Voting {
                 '}';
     }
     private void init() {
-        candidates.add(new User("Путин"));
-        candidates.add(new User("Трамп"));
+        addCandidate(new User("Путин"));
+        addCandidate(new User("Трамп"));
     }
 }

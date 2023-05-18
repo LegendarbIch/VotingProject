@@ -14,6 +14,9 @@ public class UserDetailsImpl implements UserDetails {
         return user.getRole();
     }
 
+    public boolean isAuthorized = false;
+    public boolean isVoted = false;
+
     @Override
     public String getPassword() {
         return user.getPassword();

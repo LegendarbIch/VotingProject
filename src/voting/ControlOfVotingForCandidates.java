@@ -8,6 +8,8 @@ import java.util.List;
 
 public class ControlOfVotingForCandidates extends Voting {
 
+    public boolean isVoted;
+
     public void createVoting(LocalDate startDate, LocalDate endDate) {
         setStartDate(startDate);
         setEndDate(endDate);
@@ -15,12 +17,11 @@ public class ControlOfVotingForCandidates extends Voting {
 
     public void addCandidateInVoting(User candidate) {
         addCandidate(candidate);
-        getCandidateAndVotes().put(candidate, 0);
     }
 
     public void addCandidatesInVoting(List<User> candidates) {
         for (User candidate: candidates) {
-            getCandidateAndVotes().put(candidate, 0);
+            addCandidate(candidate);
         }
     }
     public void deleteObjectInVoting(User candidate) {
@@ -32,7 +33,6 @@ public class ControlOfVotingForCandidates extends Voting {
         }
         getCandidateAndVotes().put(candidate, getCandidateAndVotes().get(candidate) + 1);
     }
-
     public Voting getVoting() {
         return this;
     }
